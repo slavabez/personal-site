@@ -12,7 +12,11 @@ export const dynamic = "force-static";
 export const contentType = "image/png";
 
 // Using Next.js Image generation to generate a static image with the blog data
-export default async function Image({ params }: { params: { slug: string } }) {
+export default async function OGImage({
+  params,
+}: {
+  params: { slug: string };
+}) {
   const blogPostData = await getMdxContentBySlug(params.slug);
 
   if (!blogPostData) {
@@ -49,9 +53,10 @@ export default async function Image({ params }: { params: { slug: string } }) {
   return new ImageResponse(
     (
       <div tw="flex flex-col gap-4 items-center justify-center h-[630px] w-[1200px] text-center bg-slate-50 text-slate-900">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="https://gravatar.com/avatar/7951f7bae37af4b59b74c96db5de6bff?s=400&d=robohash&r=x"
-          alt=""
+          alt="Slava Bezgachev profile photo"
           tw="w-40 rounded-full"
         />
         <h1 tw="text-6xl">{blogPostData.frontmatter.title}</h1>

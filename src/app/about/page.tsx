@@ -35,8 +35,8 @@ const AboutPage = () => {
         <p>
           With over 8 years of experience in the field, I specialize in bringing
           ideas to life through clean, efficient code and user-centric design.
-          Whether it's building dynamic web applications or contributing to the
-          development of complex platforms, my goal is always to exceed
+          Whether it&apos;s building dynamic web applications or contributing to
+          the development of complex platforms, my goal is always to exceed
           expectations and push the boundaries of what&apos;s possible in the
           digital realm.
         </p>
