@@ -1,3 +1,6 @@
+@import "one_light.css";
+@import "one_dark.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
