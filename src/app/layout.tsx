@@ -4,6 +4,7 @@ import "./globals.css";
 import Link from "next/link";
 import Image from "next/image";
 import LookingForAJobBanner from "@/app/_components/LookingForAJobBanner";
+import Analytics from "@/app/Analytics";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,6 +12,9 @@ const LOOKING_FOR_JOBS = !!process.env.LOOKING_FOR_JOBS;
 
 export const metadata: Metadata = {
   title: "Slava Bezgachev - Javascript Developer",
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://bezgachev.com",
+  ),
   description:
     "This is my personal website, where I occasionally write about web development and other things.",
 };
@@ -25,6 +29,7 @@ export default function RootLayout({
       <body
         className={`${inter.className} bg-gray-50 dark:bg-gray-950 min-h-[100vh]`}
       >
+        <Analytics />
         <header className="border-b border-gray-200 dark:border-gray-800 relative">
           <div className="container p-4 max-w-[850px] m-auto">
             <div className="flex items-center justify-between space-x-4">

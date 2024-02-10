@@ -17,14 +17,14 @@ const AboutPage = () => {
         <h1 className="text-4xl font-bold">About me</h1>
         <p>
           Welcome to my personal space on the web! My name is{" "}
-          <span className="underline">Slava Bezgachev.</span> My{" "}
+          <span className="underline">Slava Bezgachev.</span> View my{" "}
           <Link
             className="underline"
             href="/Resume_Slava_Bezgachev_Feb_2024.pdf"
             target="_blank"
             rel="noopener noreferrer"
           >
-            CV / Resume in PDF.
+            CV/Resume in PDF.
           </Link>
         </p>
         <p>
@@ -35,33 +35,32 @@ const AboutPage = () => {
         <p>
           With over 8 years of experience in the field, I specialize in bringing
           ideas to life through clean, efficient code and user-centric design.
-          Whether building dynamic web applications or contributing to the
+          Whether it's building dynamic web applications or contributing to the
           development of complex platforms, my goal is always to exceed
           expectations and push the boundaries of what&apos;s possible in the
-          digital world.
+          digital realm.
         </p>
         <h2>Technologies I have experience with:</h2>
         <ul className="list-disc">
           <li>
-            <strong className="underline">JavaScript</strong>. I&apos;ve worked
-            with JavaScript for over 8 years, comfortably solving a wide range
-            of problems.
+            <strong className="underline">JavaScript</strong>: Comfortably
+            solving a wide range of problems for over 8 years.
           </li>
           <li>
-            <strong className="underline">Node.js</strong>. My go-to for
+            <strong className="underline">Node.js</strong>: My go-to for
             server-side development, having built REST APIs, GraphQL servers,
             and more.
           </li>
           <li>
-            <strong className="underline">React</strong>. I&apos;ve developed
-            numerous projects using React, including this very website
+            <strong className="underline">React</strong>: Developed numerous
+            projects using React, including this very website.
           </li>
           <li>
-            <strong className="underline">TypeScript</strong>. I&apos;m
-            passionate about TypeScript and incorporate it into all my projects.
+            <strong className="underline">TypeScript</strong>: Passionate about
+            TypeScript and incorporate it into all my projects.
           </li>
           <li>
-            <strong className="underline">Next.js</strong>. The framework behind
+            <strong className="underline">Next.js</strong>: The framework behind
             this website. My preferred choice for full-stack web applications,
             especially for Server-Side Rendering (SSR).
           </li>
@@ -69,48 +68,44 @@ const AboutPage = () => {
         <h2>Types of projects I&apos;ve built or contributed to:</h2>
         <ul className="list-disc">
           <li>
-            <strong className="underline">Static websites.</strong> I&apos;ve
-            built numerous static websites, such as blogs, promotional websites
-            and simple single-purpose websites.
+            <strong className="underline">Static websites:</strong> Portfolio
+            includes numerous static websites, such as blogs, promotional
+            websites and simple single-purpose websites.
           </li>
           <li>
-            <strong className="underline">A complex low-code platform.</strong>{" "}
-            I was a senior front-end developer on a team that built a complex
-            low-code platform. The platform featured a flexible BPM system,
-            customizable entities and relationships between them, and more. Some
-            of my accomplishments include:
+            <strong className="underline">A complex low-code platform:</strong>{" "}
+            Senior front-end developer role in building a complex low-code
+            platform with a flexible BPM system, customizable entities, and
+            their interrelations. Highlights include:
             <ul className="list-disc">
               <li>
-                <span className="underline">Performant forms.</span> I worked on
-                creating a universal component that can render forms of any size
-                and complexity with great performance. This involved
-                re-structuring our code to use events-based state management to
-                prevent the form re-rendering unnecessarily
+                <span className="underline">Performant forms:</span> Led the
+                development of a universal component for rendering forms
+                efficiently, using events-based state management to minimize
+                unnecessary re-renders.
               </li>
               <li>
-                <span className="underline">Complex UI elements.</span>{" "}
-                I&apos;ve created many complex visual representations of various
-                entities and interactions between them. This included
-                multi-structured and interlinked entities, tables, drag and drop
-                interfaces etc.
+                <span className="underline">Complex UI elements:</span>{" "}
+                Developed complex UI elements for visual representation of
+                various entities and their interactions, including
+                multi-structured and interlinked entities, tables, and
+                drag-and-drop interfaces.
               </li>
             </ul>
           </li>
           <li>
             <strong className="underline">
-              A comprehensive platform for a client.
+              A comprehensive platform for a client:
             </strong>{" "}
-            I helped build a full-stack platform for a client. The platform
-            featured both internal and external web apps, with complex business
-            logic.
+            Contributed to building a full-stack platform featuring both
+            internal and external web apps with complex business logic.
           </li>
           <li>
             <strong className="underline">
-              Internal web apps for businesses.
+              Internal web apps for businesses:
             </strong>{" "}
-            I&apos;ve built internal web apps for businesses, integrating
-            seamlessly with existing systems and implementing complex business
-            logic.
+            Built internal web apps for businesses, integrating seamlessly with
+            existing systems and implementing complex business logic.
           </li>
         </ul>
         <p>
