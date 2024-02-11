@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { getMdxContentBySlug } from "@/lib/mdxUtils";
 
-export const alt = "Ivinco blog post";
+export const alt = "Slava B. blog post";
 export const size = {
   width: 1200,
   height: 630,

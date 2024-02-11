@@ -13,7 +13,7 @@ const LOOKING_FOR_JOBS = !!process.env.LOOKING_FOR_JOBS;
 export const metadata: Metadata = {
   title: "Slava Bezgachev - Javascript Developer",
   metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? "https://bezgachev.com",
+    process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bezgachev.com",
   ),
   description:
     "This is my personal website, where I occasionally write about web development and other things.",
