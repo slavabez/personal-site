@@ -18,7 +18,9 @@ export interface FrontmatterFields {
 }
 
 export function getMdxFiles() {
-  return globSync(path.join(process.cwd(), MDX_PATH));
+  const dir = path.join(process.cwd(), MDX_PATH);
+  console.log("dir", dir);
+  return globSync(dir);
 }
 
 export async function getMdxPaths() {
@@ -37,6 +39,7 @@ export async function getMdxPaths() {
  */
 export async function getAllMdxData(limit: number = 0) {
   const files = getMdxFiles();
+  console.log("files", files);
   const allMdxContent = await Promise.all(
     files.map(async (file) => {
       const fileContent = fs.readFileSync(file, "utf-8");
