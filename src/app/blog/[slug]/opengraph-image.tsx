@@ -1,5 +1,5 @@
 import { ImageResponse } from "next/og";
-import { getMdxContentBySlug } from "@/lib/mdxUtils";
+import { FrontmatterFields, getMdxContentBySlug } from "@/lib/mdxUtils";
 
 export const alt = "Slava B. blog post";
 export const size = {
@@ -15,27 +15,29 @@ export default async function OGImage({
 }: {
   params: { slug: string };
 }) {
-  const blogPostData = await getMdxContentBySlug(params.slug);
-  console.log("blogPostData", blogPostData);
-  console.log("params", params);
-
-  if (!blogPostData) {
-    return new ImageResponse(
-      (
-        <div tw="flex flex-col gap-4 items-center justify-center h-[630px] w-[1200px] text-center bg-slate-50 text-slate-900">
-          <h1 tw="text-6xl">404. Page not found</h1>
-          <p tw="text-4xl">
-            Could not find the requested resource. Please check the URL and try
-            again.
-          </p>
-        </div>
-      ),
-      {
-        width: 1200,
-        height: 630,
-      },
-    );
-  }
+  const blogPostData = (await getMdxContentBySlug(params.slug)) as {
+    frontmatter: FrontmatterFields;
+  };
+  // console.log("blogPostData", blogPostData);
+  // console.log("params", params);
+  //
+  // if (!blogPostData) {
+  //   return new ImageResponse(
+  //     (
+  //       <div tw="flex flex-col gap-4 items-center justify-center h-[630px] w-[1200px] text-center bg-slate-50 text-slate-900">
+  //         <h1 tw="text-6xl">404. Page not found</h1>
+  //         <p tw="text-4xl">
+  //           Could not find the requested resource. Please check the URL and try
+  //           again.
+  //         </p>
+  //       </div>
+  //     ),
+  //     {
+  //       width: 1200,
+  //       height: 630,
+  //     },
+  //   );
+  // }
 
   const date = new Date(blogPostData.frontmatter.date);
   const formattedDate = date.toLocaleDateString("en-US", {
