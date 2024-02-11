@@ -16,6 +16,8 @@ export default async function OGImage({
   params: { slug: string };
 }) {
   const blogPostData = await getMdxContentBySlug(params.slug);
+  console.log("blogPostData", blogPostData);
+  console.log("params", params);
 
   if (!blogPostData) {
     return new ImageResponse(
