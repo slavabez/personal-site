@@ -7,8 +7,6 @@ export const size = {
   height: 630,
 };
 
-export const dynamic = "force-static";
-
 export const contentType = "image/png";
 
 // Using Next.js Image generation to generate a static image with the blog data
