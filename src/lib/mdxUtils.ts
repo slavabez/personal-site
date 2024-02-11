@@ -39,7 +39,6 @@ export async function getMdxPaths() {
  */
 export async function getAllMdxData(limit: number = 0) {
   const files = getMdxFiles();
-  console.log("files", files);
   const allMdxContent = await Promise.all(
     files.map(async (file) => {
       const fileContent = fs.readFileSync(file, "utf-8");
