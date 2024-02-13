@@ -17,20 +17,35 @@ export interface FrontmatterFields {
   tags: string[];
 }
 
+export interface MdxMeta {
+  tags: string[];
+  articles: FrontmatterFields[];
+}
+
 export function getMdxFiles() {
   const dir = path.join(process.cwd(), MDX_PATH);
-  console.log("dir", dir);
   return globSync(dir);
 }
 
 export async function getMdxPaths() {
   // Read the directory
-  const files = await getAllMdxData();
-  return files.map((file) => {
+  const files = getMdxMeta();
+  return files.articles.map((file) => {
     return {
-      slug: file.frontmatter.slug,
+      slug: file.slug,
     };
   });
+}
+
+export function getMdxMeta() {
+  // Read the file called .blogmeta.json
+  if (!fs.existsSync("./.blogmeta.json")) {
+    throw new Error(
+      "Blog metadata file not found. Please run the build script first.",
+    );
+  }
+  const file = fs.readFileSync("./.blogmeta.json", "utf-8");
+  return JSON.parse(file) as unknown as MdxMeta;
 }
 
 /**
@@ -72,6 +87,11 @@ export async function getAllMdxData(limit: number = 0) {
 export async function getMdxContentBySlug(slug: string) {
   const allMdxContent = await getAllMdxData();
   return allMdxContent.find((mdx) => mdx.frontmatter.slug === slug);
+}
+
+export function getMdxMetaBySlug(slug: string) {
+  const allMdxMeta = getMdxMeta();
+  return allMdxMeta.articles.find((mdx) => mdx.slug === slug);
 }
 
 export function formatDate(inputDate: string) {

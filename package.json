@@ -6,7 +6,10 @@
     "dev": "next dev -p 3053",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "generate": "node ./src/lib/scrip.mjs",
+    "predev": "npm run generate",
+    "prebuild": "npm run generate"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.9.0",
