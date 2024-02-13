@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "generate": "node ./src/lib/scrip.mjs",
+    "generate": "node src/lib/generate.mjs",
     "predev": "npm run generate",
     "prebuild": "npm run generate"
   },

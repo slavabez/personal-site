@@ -1,7 +1,7 @@
 import React from "react";
 import { notFound } from "next/navigation";
 import { getMdxContentBySlug, getMdxPaths } from "@/lib/mdxUtils";
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   return getMdxPaths();

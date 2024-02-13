@@ -29,7 +29,7 @@ export function getMdxFiles() {
 
 export async function getMdxPaths() {
   // Read the directory
-  const files = getMdxMeta();
+  const files = await getMdxMeta();
   return files.articles.map((file) => {
     return {
       slug: file.slug,
@@ -37,15 +37,25 @@ export async function getMdxPaths() {
   });
 }
 
-export function getMdxMeta() {
-  // Read the file called .blogmeta.json
-  if (!fs.existsSync("./.blogmeta.json")) {
-    throw new Error(
-      "Blog metadata file not found. Please run the build script first.",
-    );
+export async function getMdxMeta() {
+  try {
+    // Attempt to read the file locally
+    if (!fs.existsSync("./public/blogmeta.json")) {
+      // Attempt to read the file remotely
+      const url = new URL("/blogmeta.json", process.env.NEXT_PUBLIC_SITE_URL);
+      const res = await fetch(url.toString());
+      const data = await res.json();
+      return data as MdxMeta;
+    }
+    const file = fs.readFileSync("./public/blogmeta.json", "utf-8");
+    return JSON.parse(file) as unknown as MdxMeta;
+  } catch (error) {
+    console.error("Error reading blogmeta.json", error);
+    return {
+      tags: [],
+      articles: [],
+    } as MdxMeta;
   }
-  const file = fs.readFileSync("./.blogmeta.json", "utf-8");
-  return JSON.parse(file) as unknown as MdxMeta;
 }
 
 /**
@@ -89,9 +99,9 @@ export async function getMdxContentBySlug(slug: string) {
   return allMdxContent.find((mdx) => mdx.frontmatter.slug === slug);
 }
 
-export function getMdxMetaBySlug(slug: string) {
-  const allMdxMeta = getMdxMeta();
-  return allMdxMeta.articles.find((mdx) => mdx.slug === slug);
+export async function getMdxMetaBySlug(slug: string) {
+  let data = await getMdxMeta();
+  return data.articles.find((mdx) => mdx.slug === slug);
 }
 
 export function formatDate(inputDate: string) {

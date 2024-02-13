@@ -1,9 +1,5 @@
 import { ImageResponse } from "next/og";
-import {
-  FrontmatterFields,
-  getMdxContentBySlug,
-  getMdxMetaBySlug,
-} from "@/lib/mdxUtils";
+import { getMdxMetaBySlug } from "@/lib/mdxUtils";
 
 export const alt = "Slava B. blog post";
 export const size = {
@@ -19,7 +15,7 @@ export default async function OGImage({
 }: {
   params: { slug: string };
 }) {
-  const blogPostData = getMdxMetaBySlug(params.slug);
+  const blogPostData = await getMdxMetaBySlug(params.slug);
 
   if (!blogPostData) {
     return new ImageResponse(

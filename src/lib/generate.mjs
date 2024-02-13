@@ -49,5 +49,5 @@ export async function getAllMdxData() {
     tags: Array.from(tags),
     articles: allMeta,
   };
-  fs.writeFileSync("./.blogmeta.json", JSON.stringify(meta));
+  fs.writeFileSync("./public/blogmeta.json", JSON.stringify(meta));
 })();
