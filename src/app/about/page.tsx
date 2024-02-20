@@ -64,6 +64,20 @@ const AboutPage = () => {
             this website. My preferred choice for full-stack web applications,
             especially for Server-Side Rendering (SSR).
           </li>
+          <li>
+            <strong className="underline">Linux</strong>: both as a server and
+            desktop OS. Having used Linux for over 10 years, I&apos;m
+            comfortable with the command line and basic system administration.
+            I&apos;ve also built and maintained servers for various projects,
+            both personal and professional.
+          </li>
+          <li>
+            <strong className="underline">Docker</strong>: I use Docker for
+            containerizing my applications and services, making it easier to
+            deploy and maintain them. I also use Docker to host a variety of
+            services on my personal server cluster, including Home Assistant,
+            Plex, backups, and more.
+          </li>
         </ul>
         <h2>Types of projects I&apos;ve built or contributed to:</h2>
         <ul className="list-disc">
