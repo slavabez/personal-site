@@ -1,0 +1,126 @@
+---
+title: Efficiently Self-Hosting Your Next.js Application with Docker
+date: "2024-04-30"
+lastmod: "2024-04-30"
+description: An introductory guide to self-hosting Next.js apps using Docker
+tags: [next.js,devops,hosting]
+slug: nextjs-self-hosting
+---
+
+## Who this article is for
+
+This article is by no means a comprehensive overview of all the different deployment strategies for Next.js apps.
+If that's what you're after, I suggest the [official docs on deploying](https://nextjs.org/docs/pages/building-your-application/deploying),
+as well as this [Production Checklist](https://nextjs.org/docs/pages/building-your-application/deploying/production-checklist)
+
+In this article, I will be talking about self-hosting Next.js, for both commercial projects and pet-projects.
+
+## Prerequisites
+
+This article assumes you are confident with **Docker**, by which I mean you know how to:
+
+* Create your own Docker images using Dockerfile
+* Know what volumes and networks are in Docker's context
+* You have a Next.js application that **builds successfully**
+
+
+## Project Setup
+
+Alright, let's get started. First of all, to deploy our application using Docker we need to build it.
+I found that the official `with-docker` [example](https://github.com/vercel/next.js/tree/canary/examples/with-docker) provides a great Dockerfile to use, or at least to start with.
+
+We need 3 things:
+
+1. Create the Dockerfile
+2. Change the `next.config.js` file, set the `output` property to `"standalone"`. This instructs Next to copy all the required files into the `.next/standalone` folder, which can be run without `node_modules`. [More info](https://nextjs.org/docs/pages/api-reference/next-config-js/output)
+3. Optionally, create a `.dockerignore` if you want to exclude some files from being copied to the build containers
+
+
+### The Dockerfile
+
+This is a Dockerfile that I use for my Next.js apps. It's an updated version of the [example Dockerfile](https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile).
+
+``` Dockerfile
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else echo "Lockfile not found." && exit 1; \
+  fi
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+ARG EXAMPLE_BUILD_ENV_VARIABLE_1
+ARG EXAMPLE_BUILD_ENV_VARIABLE_2
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Comment the following line in case you want to enable telemetry during the build.
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV EXAMPLE_BUILD_ENV_VARIABLE_1=$EXAMPLE_BUILD_ENV_VARIABLE_1 EXAMPLE_BUILD_ENV_VARIABLE_2=$EXAMPLE_BUILD_ENV_VARIABLE_2
+
+RUN \
+    if [ -f yarn.lock ]; then SKIP_ENV_VALIDATION=1 yarn build; \
+    elif [ -f package-lock.json ]; then SKIP_ENV_VALIDATION=1 npm run build; \
+    elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && SKIP_ENV_VALIDATION=1 pnpm run build; \
+    else echo "Lockfile not found." && exit 1; \
+    fi
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV production
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /app/public ./public
+
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+
+EXPOSE 3000
+
+ENV PORT 3000
+# set hostname to localhost
+ENV HOSTNAME "0.0.0.0"
+
+# server.js is created by next build from the standalone output
+# https://nextjs.org/docs/pages/api-reference/next-config-js/output
+CMD ["node", "server.js"]
+```
+
+#### Important notes:
+* The build process is split into 3 separate containers:
+    * `deps` - Has 1 job - install the NPM dependencies. Only runs if the package.json or the lockfile have been changed
+    * `builder` - Copies the files from `deps`, then builds the project. If you need environment variables during the build process, e.g. for Sentry, your database or any other kind of instrumentation, you can extract them from the arguments using ARG and ENV.
+    * `runner` - Copies only the minimum required files from the builder that are required for running the standalone app
+* This separation means that the final image size is tiny. My medium sized Next.js app is only **73MB**, amazing!
+* If you're using `next/image`, then you should add `sharp` to your dependencies so that Next can use that in production. If not included, Next will use the default loader `squoosh`, which trades speed for quality.
+
+## Building and hosting the image
+To be continued...
