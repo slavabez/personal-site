@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.bezgachev.com",
   ),
   description:
-    "This is my personal website, where I occasionally write about web development and other things.",
+    "My personal website, where I occasionally write about web development and other things.",
 };
 
 export default function RootLayout({
